@@ -1,0 +1,25 @@
+// This file can be removed if no App-specific styles are needed,
+@import "./styles/variables";
+
+$left-bar-width: 250px;
+$right-bar-width: 300px;
+$content-gap: 20px;
+
+.appContainer {
+  display: grid;
+  grid-template-columns: $left-bar-width auto $right-bar-width;
+  grid-template-rows: 100vh;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.mainContent {
+  overflow-y: auto;
+  padding: map-get($spacing, lg);
+}
+
+.iframeContent {
+  width: 100%;
+  height: 100%;
+  border: none;
+}

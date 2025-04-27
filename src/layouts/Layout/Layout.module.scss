@@ -1,0 +1,29 @@
+@import "../../styles/variables";
+
+.layoutContainer {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-color: map-get($backgrounds, light);
+  position: relative;
+}
+
+.mainContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: map-get($spacing, xl);
+  margin: 0 300px 0 250px;
+  min-height: 100vh;
+  transition: map-get($transition, medium);
+  background-color: map-get($backgrounds, primary);
+  border-radius: map-get($radius, md);
+}
+
+.iframeContent {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: map-get($radius, sm);
+  box-shadow: map-get($shadow, sm);
+}

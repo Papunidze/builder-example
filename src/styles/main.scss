@@ -1,0 +1,15 @@
+@import "variables";
+@import "mixins";
+@import "globals";
+@import "font-css";
+@import "root";
+@import "animation";
+@import "components";
+@import "layouts";
+
+.app-root {
+  width: 100%;
+  height: 100vh;
+  background-color: map-get($backgrounds, primary);
+  overflow: hidden;
+}

@@ -1,0 +1,49 @@
+@import "../../styles/variables";
+
+.rightBar {
+  background-color: map-get($backgrounds, light);
+  color: map-get($text-colors, primary);
+  border-left: 1px solid map-get($border, primary);
+  width: 300px;
+  height: 100vh;
+  padding: map-get($spacing, lg);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: map-get($z-index, dropdown);
+  box-shadow: map-get($shadow, md);
+  transition: map-get($transition, medium);
+  overflow-y: auto;
+}
+
+.settingsGroup {
+  margin-bottom: map-get($spacing, xl);
+}
+
+.settingItem {
+  margin-bottom: map-get($spacing, md);
+
+  label {
+    display: block;
+    margin-bottom: map-get($spacing, xs);
+    font-weight: map-get($font-weight, medium);
+  }
+
+  input {
+    color: black;
+    width: 100%;
+    padding: map-get($spacing, sm);
+    border: 1px solid map-get($border, primary);
+    border-radius: map-get($radius, sm);
+    background-color: white;
+    transition: map-get($transition, fast);
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 2px rgba($primary, 0.2);
+    }
+  }
+}

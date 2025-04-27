@@ -1,0 +1,34 @@
+@import "../../styles/variables";
+
+.leftBar {
+  background-color: map-get($backgrounds, light);
+  color: map-get($text-colors, primary);
+  border-right: 1px solid map-get($border, primary);
+  width: 250px;
+  height: 100vh;
+  padding: map-get($spacing, lg);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: map-get($z-index, dropdown);
+  box-shadow: map-get($shadow, md);
+  transition: map-get($transition, medium);
+  overflow-y: auto;
+}
+
+.elementItem {
+  padding: map-get($spacing, md);
+  margin-bottom: map-get($spacing, sm);
+  border-radius: map-get($radius, md);
+  cursor: pointer;
+  transition: map-get($transition, fast);
+  background-color: $secondary;
+
+  &:hover {
+    background-color: darken($secondary, 5%);
+    transform: translateY(-2px);
+    box-shadow: map-get($shadow, sm);
+  }
+}

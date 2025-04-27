@@ -1,0 +1,222 @@
+@use "sass:color";
+@import "mixins";
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-height: -webkit-fill-available;
+  overflow: auto;
+  padding: var(--spacing-md);
+  background-color: var(--background-primary);
+  color: var(--text-color-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+.flex-between {
+  justify-content: space-between;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.link {
+  font-size: var(--font-size-sm);
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: all 0.2s ease;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    color: var(--variant-dark);
+
+    &::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}
+.visible {
+  display: block;
+}
+.inline-block {
+  display: inline-block;
+}
+.text-center {
+  text-align: center;
+}
+
+.full {
+  width: 100%;
+}
+
+.separator {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: var(--font-size-sm);
+  text-align: center;
+
+  ::before {
+    content: "";
+    display: block;
+    margin: 10px;
+    margin-bottom: -8px;
+    border-bottom: 1px solid var(--border-secondary);
+  }
+  :nth-child(1) {
+    color: var(--text-color-primary);
+    background: var(--background-light);
+    font-family: var(--font-family-heading);
+  }
+}
+
+// Accordion styles
+.accordion {
+  width: 100%;
+
+  .accordion-item {
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .accordion-title {
+    padding: 1rem;
+    background-color: var(--background-light);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: var(--font-weight-medium);
+
+    &.active {
+      border-bottom: 1px solid var(--border-primary);
+    }
+
+    .accordion-icon {
+      font-size: 1.2rem;
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
+  .accordion-content {
+    padding: 1rem;
+    line-height: 1.5;
+  }
+}
+
+// Leaderboard styles
+.leaderboard {
+  width: 100%;
+
+  .leaderboard-title {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: var(--font-weight-bold);
+  }
+
+  .leaderboard-header {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+    padding: 0.75rem 1rem;
+    background-color: var(--background-primary);
+    font-weight: var(--font-weight-semibold);
+    border-bottom: 2px solid var(--border-primary);
+  }
+
+  .leaderboard-entry {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-primary);
+    align-items: center;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+  }
+
+  .rank {
+    font-weight: var(--font-weight-bold);
+    text-align: center;
+
+    .trophy {
+      font-size: 1.2rem;
+    }
+  }
+
+  .player {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+      object-fit: cover;
+    }
+
+    .name {
+      font-weight: var(--font-weight-medium);
+    }
+  }
+
+  .score {
+    text-align: right;
+    font-weight: var(--font-weight-semibold);
+  }
+}

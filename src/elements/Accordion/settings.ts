@@ -26,6 +26,16 @@ export const settings: Settings<typeof elementSpecificStyles> = {
     boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
     fontWeight: "500",
   },
+  javascript: {
+    controls: {
+      isOpen: {
+        type: "select",
+        label: "Is Open",
+        options: ["true", "false"],
+        defaultValue: "false",
+      },
+    },
+  },
 };
 
 export default settings;

@@ -9,6 +9,7 @@ interface ElementInstance {
   id: string;
   type: string;
   styles: CSSProperties;
+  jsSettings?: { [key: string]: any };
 }
 
 const elementComponentMap: { [key: string]: React.LazyExoticComponent<any> } =
@@ -25,11 +26,23 @@ export const Layout: React.FC = () => {
 
   const handleAddElement = async (elementType: string) => {
     let defaultStyles: CSSProperties = {};
+    let initialJsSettings: { [key: string]: any } = {};
     try {
       const settingsModule = await import(
         `../../elements/${elementType}/settings.ts`
       );
       defaultStyles = settingsModule.settings.defaultStyles || {};
+
+      const jsControls = settingsModule.settings.javascript?.controls;
+      if (jsControls) {
+        initialJsSettings = {};
+        for (const key in jsControls) {
+          if (Object.prototype.hasOwnProperty.call(jsControls, key)) {
+            const control = jsControls[key];
+            initialJsSettings[key] = control.defaultValue;
+          }
+        }
+      }
     } catch (error) {
       console.error(`Error loading settings for ${elementType}:`, error);
     }
@@ -38,6 +51,7 @@ export const Layout: React.FC = () => {
       id: uuidv4(),
       type: elementType,
       styles: defaultStyles,
+      jsSettings: initialJsSettings,
     };
     setAddedElements((prevElements) => [...prevElements, newInstance]);
   };
@@ -59,6 +73,19 @@ export const Layout: React.FC = () => {
     );
   };
 
+  const handleJsSettingChange = (
+    instanceId: string,
+    newJsSettings: { [key: string]: any }
+  ) => {
+    setAddedElements((prevElements) =>
+      prevElements.map((el) =>
+        el.id === instanceId
+          ? { ...el, jsSettings: { ...el.jsSettings, ...newJsSettings } }
+          : el
+      )
+    );
+  };
+
   const selectedElement =
     addedElements.find((el) => el.id === selectedInstanceId) || null;
 
@@ -71,7 +98,6 @@ export const Layout: React.FC = () => {
         {addedElements.map((element) => {
           const Component = elementComponentMap[element.type];
           if (!Component) {
-            // Handle case where component mapping is missing
             return (
               <div key={element.id} style={{ color: "red" }}>
                 Error: Component type '{element.type}' not found.
@@ -88,13 +114,15 @@ export const Layout: React.FC = () => {
                   selectedInstanceId === element.id
                     ? "2px solid blue"
                     : "1px solid grey",
-                cursor: "pointer"
+                cursor: "pointer",
               }}
             >
-              {/* Render the actual component dynamically */}
               <Suspense fallback={<div>Loading {element.type}...</div>}>
-                <Component />{" "}
-                {/* Pass necessary props if components expect them */}
+                {element.jsSettings ? (
+                  <Component {...element.jsSettings} />
+                ) : (
+                  <Component />
+                )}
               </Suspense>
             </div>
           );
@@ -104,6 +132,7 @@ export const Layout: React.FC = () => {
       <RightBar
         selectedElement={selectedElement}
         onStyleChange={handleStyleChange}
+        onJsSettingChange={handleJsSettingChange}
       />
     </div>
   );

@@ -7,6 +7,7 @@ export interface AccordionItemProps {
 
 export interface AccordionProps {
   items?: AccordionItemProps[];
+  isOpen?: boolean;
 }
 
 export const Accordion: React.FC<AccordionProps> = ({
@@ -15,6 +16,7 @@ export const Accordion: React.FC<AccordionProps> = ({
     { title: "Section 2", content: "Content for section 2" },
     { title: "Section 3", content: "Content for section 3" },
   ],
+  isOpen = "false",
 }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -24,6 +26,7 @@ export const Accordion: React.FC<AccordionProps> = ({
 
   return (
     <div className="accordion">
+      {isOpen}
       {items.map((item, index) => (
         <div key={index} className="accordion-item">
           <div

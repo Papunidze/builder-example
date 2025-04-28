@@ -6,6 +6,11 @@ export const COMPONENT_MANIFEST = [
     "components": []
   },
   {
+    "name": "dialog",
+    "path": "/components/dialog",
+    "components": []
+  },
+  {
     "name": "Leaderboard",
     "path": "/components/Leaderboard",
     "components": []

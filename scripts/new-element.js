@@ -7,8 +7,8 @@ const { hideBin } = require("yargs/helpers");
 
 const toPascalCase = (str) => {
   return str
-    .replace(/([-_]\w)/g, (g) => g[1].toUpperCase())
-    .replace(/^./, (str) => str.toUpperCase());
+    .replace(/([-_]\w)/g, (g) => g[1].toLowerCase())
+    .replace(/^./, (str) => str.toLowerCase());
 };
 
 const argv = yargs(hideBin(process.argv))

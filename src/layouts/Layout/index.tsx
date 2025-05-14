@@ -23,6 +23,8 @@ export const Layout: React.FC = () => {
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(
     null
   );
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
 
   const handleAddElement = async (elementType: string) => {
     let defaultStyles: CSSProperties = {};
@@ -89,10 +91,97 @@ export const Layout: React.FC = () => {
   const selectedElement =
     addedElements.find((el) => el.id === selectedInstanceId) || null;
 
+  const handleAutoDownload = async () => {
+    setIsExporting(true);
+    setExportError(null);
+    try {
+      const response = await fetch("http://localhost:3001/api/export-layout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ elements: addedElements }), // Send elements under a key
+      });
+
+      if (!response.ok) {
+        const errorData = await response
+          .json()
+          .catch(() => ({ error: "Failed to process error response" }));
+        throw new Error(
+          errorData.error ||
+            `Server error: ${response.status} ${response.statusText}`
+        );
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      // Extract filename from content-disposition header if available, otherwise default
+      const contentDisposition = response.headers.get("content-disposition");
+      let filename = "downloaded-layout.zip";
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(
+          /filename[^;=\n]*=((['"])(.*?)\2|[^;\n]*)/i
+        );
+        if (filenameMatch && filenameMatch[3]) {
+          filename = filenameMatch[3];
+        }
+      }
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      console.error("Export failed:", err);
+      setExportError(err.message || "An unknown error occurred during export.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className={styles.layoutContainer}>
       <LeftBar onElementAdd={handleAddElement} />
       <main className={styles.mainContent}>
+        <div
+          style={{
+            padding: "10px",
+            borderBottom: "1px solid #ccc",
+            marginBottom: "10px",
+          }}
+        >
+          <button
+            onClick={handleAutoDownload}
+            style={{ padding: "8px 15px" }}
+            disabled={isExporting}
+          >
+            {isExporting ? "Exporting..." : "Download Layout Package"}
+          </button>
+          {isExporting && <p>Preparing your download, please wait...</p>}
+          {exportError && (
+            <div
+              style={{
+                marginTop: "10px",
+                padding: "10px",
+                border: "1px solid red",
+                backgroundColor: "#ffe5e5",
+                color: "red",
+              }}
+            >
+              <h4>Export Error:</h4>
+              <p>{exportError}</p>
+              <button
+                onClick={() => setExportError(null)}
+                style={{ marginTop: "5px" }}
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+        </div>
+
         {addedElements.length === 0 &&
           "Click an element on the left to add it."}
         {addedElements.map((element) => {

@@ -1,0 +1,61 @@
+.leaderboard {
+  width: 100%;
+
+  .leaderboard-title {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .leaderboard-header {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+    padding: 0.75rem 1rem;
+    background-color: white;
+    font-weight: 500;
+    border-bottom: 2px solid gray;
+  }
+
+  .leaderboard-entry {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid gray;
+    align-items: center;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+  }
+
+  .rank {
+    font-weight: 500;
+    text-align: center;
+
+    .trophy {
+      font-size: 1.2rem;
+    }
+  }
+
+  .player {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+      object-fit: cover;
+    }
+
+    .name {
+      font-weight: 500;
+    }
+  }
+
+  .score {
+    text-align: right;
+    font-weight: 500;
+  }
+}

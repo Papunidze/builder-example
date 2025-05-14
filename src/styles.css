@@ -1,0 +1,44 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  color-scheme: light dark;
+}
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px dashed var(--primary);
+  outline-offset: 3px;
+}
+
+html {
+  font-size: var(--font-size-base);
+  height: 100%;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: black;
+  color: red;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+
+  &:focus {
+    outline: none;
+  }
+}

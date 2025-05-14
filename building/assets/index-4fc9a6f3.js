@@ -1,0 +1,1 @@
+import{j as e}from"./index-d86a3d87.js";const t="_dialog_1fybj_1",d={dialog:t},o=({message:s="Default Message",dialogState:l="hidden",titleText:i="Default Title",messageText:a="Default Message"})=>l!=="visible"?null:e.jsxs("div",{className:d.dialog,children:[e.jsx("h2",{children:i}),e.jsx("p",{children:s}),e.jsx("p",{children:a})]});export{o as default,o as dialog};

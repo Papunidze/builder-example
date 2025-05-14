@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import styels from "./acardion.module.scss";
 export interface AccordionItemProps {
   title: string;
   content: string;
@@ -25,23 +25,23 @@ export const Accordion: React.FC<AccordionProps> = ({
   };
 
   return (
-    <div className="accordion">
+    <div className={styels.accordion}>
       {isOpen}
       {items.map((item, index) => (
-        <div key={index} className="accordion-item">
+        <div key={index} className={styels.accordionItem}>
           <div
-            className={`accordion-title ${
+            className={`${styels.accordionTitle} ${
               activeIndex === index ? "active" : ""
             }`}
             onClick={() => toggleAccordion(index)}
           >
             {item.title}
-            <span className="accordion-icon">
+            <span className={styels.accordionIcon}>
               {activeIndex === index ? "−" : "+"}
             </span>
           </div>
           {activeIndex === index && (
-            <div className="accordion-content">{item.content}</div>
+            <div className={styels.accordionContent}>{item.content}</div>
           )}
         </div>
       ))}

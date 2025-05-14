@@ -1,5 +1,5 @@
 import React from "react";
-
+import styles from "./leaderboard.module.scss";
 export interface LeaderboardEntry {
   rank: number;
   name: string;
@@ -48,35 +48,37 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
   title = "Leaderboard",
 }) => {
   return (
-    <div className="leaderboard">
-      <h3 className="leaderboard-title">{title}</h3>
-      <div className="leaderboard-header">
-        <div className="rank">Rank</div>
-        <div className="player">Player</div>
-        <div className="score">Score</div>
+    <div className={styles.leaderboard}>
+      <h3 className={styles.leaderboardTitle}>{title}</h3>
+      <div className={styles.leaderboardHeader}>
+        <div className={styles.rank}>Rank</div>
+        <div className={styles.player}>Player</div>
+        <div className={styles.score}>Score</div>
       </div>
       {entries.map((entry) => (
-        <div key={entry.rank} className="leaderboard-entry">
-          <div className="rank">
+        <div key={entry.rank} className={styles.leaderboardEntry}>
+          <div className={styles.rank}>
             {entry.rank <= 3 ? (
-              <span className={`trophy trophy-${entry.rank}`}>
+              <span
+                className={`${styles.trophy} ${styles[`trophy-${entry.rank}`]}`}
+              >
                 {entry.rank === 1 ? "🥇" : entry.rank === 2 ? "🥈" : "🥉"}
               </span>
             ) : (
               entry.rank
             )}
           </div>
-          <div className="player">
+          <div className={styles.player}>
             {entry.avatar && (
               <img
                 src={entry.avatar}
                 alt={`${entry.name}'s avatar`}
-                className="avatar"
+                className={styles.avatar}
               />
             )}
-            <span className="name">{entry.name}</span>
+            <span className={styles.name}>{entry.name}</span>
           </div>
-          <div className="score">{entry.score.toLocaleString()}</div>
+          <div className={styles.score}>{entry.score.toLocaleString()}</div>
         </div>
       ))}
     </div>

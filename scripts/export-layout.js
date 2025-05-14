@@ -151,7 +151,7 @@ function generateMainTsx(tempDirPath) {
 import ReactDOM from 'react-dom/client';
 import App from './App';
 // If you have global CSS to apply, import it here, e.g.:
-import "./styles/styles.css"; // Make sure this file is copied
+import "./styles/styles.scss"; // Import the copied and renamed SCSS file
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -272,8 +272,8 @@ async function copyElementSources(tempDirPath, elementsData) {
 // MODIFIED: Function to copy necessary global styles
 async function copyGlobalStyles(tempDirPath) {
   const tempStylesDir = path.join(tempDirPath, "src", "styles");
-  const sourceStyleFile = path.join(CWD, "src", "styles.css"); // Corrected path to src/styles.css
-  const destStyleFile = path.join(tempStylesDir, "styles.css");
+  const sourceStyleFile = path.join(CWD, "src", "styles.css"); // Source is src/styles.css
+  const destStyleFile = path.join(tempStylesDir, "styles.scss"); // Destination is temp/src/styles/styles.scss
 
   if (fs.existsSync(sourceStyleFile)) {
     try {
@@ -285,17 +285,19 @@ async function copyGlobalStyles(tempDirPath) {
           destStyleFile
       );
       await fs.copy(sourceStyleFile, destStyleFile);
-      console.log("Copied global style file successfully.");
+      console.log(
+        "Copied src/styles.css to temp/src/styles/styles.scss successfully."
+      );
     } catch (err) {
       console.error("Error copying global style file: " + err);
     }
   } else {
     console.warn(
-      "Source style file not found: " + sourceStyleFile + ", skipping."
+      "Source style file (src/styles.css) not found: " +
+        sourceStyleFile +
+        ", skipping."
     );
   }
-  // Note: If your SCSS files import from node_modules, those dependencies also need to be in the temp project's package.json
-  // or handled by Vite's resolver. This function only copies your src/styles.
 }
 
 // New function to copy interface files

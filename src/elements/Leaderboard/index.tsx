@@ -47,7 +47,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
       setLoading(true);
       setError(null);
       try {
-        const initialId = "199";
+        const initialId = "188";
 
         const firstResponse = await fetchExternalUrl(initialId);
         console.log("Response from fetchExternalUrl:", firstResponse);
@@ -102,61 +102,74 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
         <div className={styles.player}>Player</div>
         <div className={styles.score}>Score</div>
       </div>
-      {leaderboardEntries.length === 0 ? (
-          <section className={`${styles.oa_dashboard__not_found} ${styles.oa_is_visible}`}>
-            <img
-                src="https://i.postimg.cc/QdqTx81y/Frame-1984078017.png"
-                alt="No data found"
-                className={styles.oa_dashboard__not_found_image}
-            />
-          </section>
-      ) :
-          (
-          <section className={styles.main}>
-            <table className={styles.table}>
-              <thead className={styles.oa_leaderboard__header}>
-              <tr>
-                <th scope="col">Rank</th>
-                <th scope="col">Player</th>
-                <th scope="col">Score</th>
-                <th scope="col">Details</th>
-              </tr>
-              </thead>
-              <tbody className={`${styles.oa_leaderboard__body} ${styles.clearable}`}>
-              {leaderboardEntries.map((entry) => (
-                  <tr key={entry.rank} className={entry.isCurrentUser ? styles.oa_current : ""}>
-                    <td>
-                      {entry.rank <= 3 ? (
-                          <span
-                              className={`${styles.trophy} ${styles[`trophy-${entry.rank}`]}`}
-                          >
+        {leaderboardEntries.length === 0 ? (
+            <div className={styles.wrapper}>
+            <section className={`${styles.oa_dashboard__not_found} ${styles.oa_is_visible}`}>
+                  <img
+                      src="https://i.postimg.cc/QdqTx81y/Frame-1984078017.png"
+                      alt="No data found"
+                      className={styles.oa_dashboard__not_found_image}
+                  />
+                </section>
+            </div>
+            ) :
+            (
+                  <section className={styles.main}>
+                  <table className={styles.table}>
+                    <thead className={styles.oa_leaderboard__header}>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Player</th>
+                      <th scope="col">Points</th>
+                      <th scope="col">Prize</th>
+                    </tr>
+                    </thead>
+                  </table>
+                    <div className={styles.wrapper}>
+                    <table className={styles.table}>
+                      <tbody className={`${styles.body} ${styles.clearable}`}>
+                    {leaderboardEntries.map((entry) => (
+                        <tr className={styles.row} key={entry.rank}
+                            // className={entry.isCurrentUser ? styles.oa_current : ""}
+                        >
+                          <td className={styles.data}>
+                            {entry.rank <= 3 ? (
+                                <span
+                                    className={`${styles.trophy} ${styles[`trophy-${entry.rank}`]}`}
+                                >
                           {entry.rank === 1 ? "🥇" : entry.rank === 2 ? "🥈" : "🥉"}
                         </span>
-                      ) : (
-                          entry.rank
-                      )}
-                    </td>
-                    <td>
-                      <div className={styles.player_cell_content}>
-                        {entry.avatar && (
-                            <img
-                                src={entry.avatar}
-                                alt={`${entry.name}'s avatar`}
-                                className={styles.avatar}
-                            />
-                        )}
-                        <span className={styles.name}>{entry.name}</span>
-                      </div>
-                    </td>
-                    <td>{entry.score.toLocaleString()}</td>
+                            ) : (
+                                entry.rank
+                            )}
+                          </td>
+                          <td className={styles.data}>
+                            <div className={styles.player_cell_content}>
+                              {entry.avatar && (
+                                  <img
+                                      src={entry.avatar}
+                                      alt={`${entry.name}'s avatar`}
+                                      className={styles.avatar}
+                                  />
+                              )}
+                              {entry.name ? <span className={styles.name}>{entry.name}</span> : <span className={styles.name}>--</span>}
 
-                  </tr>
-              ))
-              }
-              </tbody>
-            </table>
-          </section>)
-      }
+                            </div>
+                          </td>
+                          <td className={styles.data}>{entry.score.toLocaleString()}</td>
+                          <td className={styles.data}>--</td>
+
+                        </tr>
+                    ))
+                    }
+                    </tbody>
+                  </table>
+                    </div>
+
+                  </section>
+
+            )
+        }
     </div>
   );
 };

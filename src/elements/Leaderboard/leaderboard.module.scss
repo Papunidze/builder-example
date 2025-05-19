@@ -26,18 +26,68 @@
     border-bottom: 2px solid gray;
   }
 
-  .main {
-    padding: 20px;
+  .wrapper {
+    margin: 8px 8px 20px;
+    overflow: auto;
+    height: 590px;
 
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #4CAF50;  /* or any green you prefer */
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.20); /* for spacing */
+      background-clip: content-box;
+    }
+    .table {
+      padding: 0 12px;
+
+    }
   }
+
 
   .table {
     width: 100%;
-    border-bottom: 1px solid gray;
     align-items: center;
-    background-color: #00141E;
     color: #FFF;
+    border-collapse: separate;
+    border-spacing: 0px 12px;
 
+
+    .body {
+
+    }
+
+    .row {
+      background-color: #00141E;
+      overflow: hidden;
+
+      .data {
+        text-align: center;
+        padding: 27px 20px;
+        color: #FFF;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+      }
+      .data:first-child {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+      }
+
+      .data:last-child {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+      }
+    }
     &:hover {
       background-color: rgba(0, 0, 0, 0.03);
     }

@@ -26,7 +26,7 @@ export const settings: Settings<typeof elementSpecificStyles> = {
     width: "820px",
     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
     borderColor: "#e0e0e0",
-    maxHeight: "600px",
+    maxHeight: "880px",
   },
 };
 

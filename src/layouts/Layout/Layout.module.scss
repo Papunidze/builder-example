@@ -10,6 +10,9 @@
 
 .mainContent {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   overflow-y: auto;
   padding: map-get($spacing, xl);
   margin: 0 300px 0 250px;

@@ -1,5 +1,7 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./leaderboard.module.scss";
+import { fetchExternalUrl, leaderboardData } from "./action";
+
 export interface LeaderboardEntry {
   rank: number;
   name: string;
@@ -7,80 +9,154 @@ export interface LeaderboardEntry {
   avatar?: string;
 }
 
+export interface LeaderboardEntry {
+  rank: number;
+  name: string;
+  score: number;
+  avatar?: string;
+  isCurrentUser?: boolean;
+}
+
 export interface LeaderboardProps {
-  entries?: LeaderboardEntry[];
   title?: string;
 }
 
+interface ApiPlayerEntry {
+  playerUsername: string;
+  amount: number;
+}
+
+interface LeaderboardApiResponse {
+  data: {
+    items: ApiPlayerEntry[];
+  };
+}
+
+
+
 export const Leaderboard: React.FC<LeaderboardProps> = ({
-  entries = [
-    {
-      rank: 1,
-      name: "Player 1",
-      score: 1200,
-      avatar: "https://via.placeholder.com/40",
-    },
-    {
-      rank: 2,
-      name: "Player 2",
-      score: 1150,
-      avatar: "https://via.placeholder.com/40",
-    },
-    {
-      rank: 3,
-      name: "Player 3",
-      score: 1050,
-      avatar: "https://via.placeholder.com/40",
-    },
-    {
-      rank: 4,
-      name: "Player 4",
-      score: 950,
-      avatar: "https://via.placeholder.com/40",
-    },
-    {
-      rank: 5,
-      name: "Player 5",
-      score: 900,
-      avatar: "https://via.placeholder.com/40",
-    },
-  ],
+
   title = "Leaderboard",
 }) => {
+  const [leaderboardEntries, setLeaderboardEntries] = useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const initialId = "199";
+
+        const firstResponse = await fetchExternalUrl(initialId);
+        console.log("Response from fetchExternalUrl:", firstResponse);
+
+        if (firstResponse && firstResponse.data && firstResponse.data.leaderboards && firstResponse.data.leaderboards.length > 0) {
+          const externalId = firstResponse.data.leaderboards[0].externalId;
+          const promotionIdForLeaderboard = initialId;
+
+          const secondResponse: LeaderboardApiResponse = await leaderboardData(
+              promotionIdForLeaderboard,
+              externalId.toString()
+          );
+          console.log("Response from leaderboardData:", secondResponse);
+
+          const formattedEntries: LeaderboardEntry[] = secondResponse.data.items.map((apiEntry: ApiPlayerEntry, index: number) => ({
+            rank: index + 1,
+            name: apiEntry.playerUsername,
+            score: apiEntry.amount,
+
+          }));
+
+          setLeaderboardEntries(formattedEntries);
+        } else {
+          console.error(
+              "Could not find necessary data in the response from fetchExternalUrl:",
+              firstResponse
+          );
+          setError("Failed to retrieve initial leaderboard configuration.");
+        }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError(err instanceof Error ? err.message : "An unknown error occurred.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div className={styles.loading}>Loading leaderboard...</div>;
+  }
+
+  if (error) {
+    return <div className={styles.error}>Error: {error}</div>;
+  }
   return (
     <div className={styles.leaderboard}>
       <h3 className={styles.title}>{title}</h3>
-      <div className={styles.leaderboardHeader}>
+      <div className={styles.header}>
         <div className={styles.rank}>Rank</div>
         <div className={styles.player}>Player</div>
         <div className={styles.score}>Score</div>
       </div>
-      {entries.map((entry) => (
-        <div key={entry.rank} className={styles.leaderboardEntry}>
-          <div className={styles.rank}>
-            {entry.rank <= 3 ? (
-              <span
-                className={`${styles.trophy} ${styles[`trophy-${entry.rank}`]}`}
-              >
-                {entry.rank === 1 ? "🥇" : entry.rank === 2 ? "🥈" : "🥉"}
-              </span>
-            ) : (
-              entry.rank
-            )}
-          </div>
-          <div className={styles.player}>
-            {entry.avatar && (
-              <img
-                src={entry.avatar}
-                alt={`${entry.name}'s avatar`}
-                className={styles.avatar}
-              />
-            )}
-            <span className={styles.name}>{entry.name}</span>
-          </div>
-          <div className={styles.score}>{entry.score.toLocaleString()}</div>
-        </div>
-      ))}
+      {leaderboardEntries.length === 0 ? (
+          <section className={`${styles.oa_dashboard__not_found} ${styles.oa_is_visible}`}>
+            <img
+                src="https://i.postimg.cc/QdqTx81y/Frame-1984078017.png"
+                alt="No data found"
+                className={styles.oa_dashboard__not_found_image}
+            />
+          </section>
+      ) :
+          (
+          <section className={styles.main}>
+            <table className={styles.table}>
+              <thead className={styles.oa_leaderboard__header}>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Player</th>
+                <th scope="col">Score</th>
+                <th scope="col">Details</th>
+              </tr>
+              </thead>
+              <tbody className={`${styles.oa_leaderboard__body} ${styles.clearable}`}>
+              {leaderboardEntries.map((entry) => (
+                  <tr key={entry.rank} className={entry.isCurrentUser ? styles.oa_current : ""}>
+                    <td>
+                      {entry.rank <= 3 ? (
+                          <span
+                              className={`${styles.trophy} ${styles[`trophy-${entry.rank}`]}`}
+                          >
+                          {entry.rank === 1 ? "🥇" : entry.rank === 2 ? "🥈" : "🥉"}
+                        </span>
+                      ) : (
+                          entry.rank
+                      )}
+                    </td>
+                    <td>
+                      <div className={styles.player_cell_content}>
+                        {entry.avatar && (
+                            <img
+                                src={entry.avatar}
+                                alt={`${entry.name}'s avatar`}
+                                className={styles.avatar}
+                            />
+                        )}
+                        <span className={styles.name}>{entry.name}</span>
+                      </div>
+                    </td>
+                    <td>{entry.score.toLocaleString()}</td>
+
+                  </tr>
+              ))
+              }
+              </tbody>
+            </table>
+          </section>)
+      }
     </div>
   );
 };

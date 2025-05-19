@@ -49,7 +49,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
 }) => {
   return (
     <div className={styles.leaderboard}>
-      <h3 className={styles.leaderboardTitle}>{title}</h3>
+      <h3 className={styles.title}>{title}</h3>
       <div className={styles.leaderboardHeader}>
         <div className={styles.rank}>Rank</div>
         <div className={styles.player}>Player</div>

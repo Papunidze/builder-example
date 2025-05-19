@@ -16,11 +16,6 @@ export const COMPONENT_MANIFEST = [
     "components": []
   },
   {
-    "name": "Leaderboardnative",
-    "path": "/components/Leaderboardnative",
-    "components": []
-  },
-  {
     "name": "Rules",
     "path": "/components/Rules",
     "components": []

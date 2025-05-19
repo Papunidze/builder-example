@@ -18,7 +18,7 @@ export const settings: Settings<typeof elementSpecificStyles> = {
   allowedStyles: elementSpecificStyles,
   defaultStyles: {
     color: "#333333",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#0F542A",
     fontSize: "0.9rem",
     margin: "1rem 0",
     padding: "1rem",

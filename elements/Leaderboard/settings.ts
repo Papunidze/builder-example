@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import type { Settings } from "../../interfaces/settings.interfaces";
+import type { Settings } from "../../src/interfaces/settings.interfaces";
 
 const elementSpecificStyles = [
   "color",

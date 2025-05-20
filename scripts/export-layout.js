@@ -5,7 +5,7 @@ const archiver = require("archiver");
 const os = require("os");
 
 const CWD = process.cwd();
-const SRC_ELEMENTS_PATH = path.join(CWD, "src", "elements");
+const SRC_ELEMENTS_PATH = path.join(CWD, "Elements");
 const SRC_STYLES_PATH = path.join(CWD, "src", "styles"); // For global styles, variables etc.
 const SRC_INTERFACES_PATH = path.join(CWD, "src", "interfaces"); // Path for interfaces
 

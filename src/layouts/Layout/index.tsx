@@ -14,7 +14,7 @@ interface ElementInstance {
 
 const elementComponentMap: { [key: string]: React.LazyExoticComponent<any> } =
   COMPONENT_MANIFEST.reduce((acc, element) => {
-    acc[element.name] = lazy(() => import(`../../elements/${element.name}`));
+    acc[element.name] = lazy(() => import(`../../../elements/${element.name}`));
     return acc;
   }, {} as { [key: string]: React.LazyExoticComponent<any> });
 

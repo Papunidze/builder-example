@@ -37,7 +37,7 @@ export const RightBar: React.FC<RightBarProps> = ({
     if (selectedElement) {
       setAllowedStyles([]);
       setElementJsControls(null);
-      import(`../../elements/${selectedElement.type}/settings.ts`)
+      import(`../../../elements/${selectedElement.type}/settings.ts`)
         .then((settingsModule) => {
           if (settingsModule && settingsModule.settings) {
             if (settingsModule.settings.allowedStyles) {
